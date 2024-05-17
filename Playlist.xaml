@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Strawberry.Playlist"
+             Title="Playlist"
+             NavigationPage.HasNavigationBar="False">
+    <Grid BackgroundColor="DarkRed">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="52"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" BackgroundColor="DarkSlateGray">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="222"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" Background="Gray">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Background="DarkRed" WidthRequest="48" CornerRadius="1" ImageSource="strawberry.png"/>
+                <Label Grid.Column="1" Background="DarkRed" LineBreakMode="TailTruncation" Text="STRAWBERRY" TextColor="White" FontSize="Large"  HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
+            </Grid>
+            
+            <ScrollView x:Name="ToolsScrollView" Grid.Column="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never" >
+                <Grid x:Name="ToolsGrid" Background="DarkSlateGray">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="70"/>
+                    </Grid.ColumnDefinitions>
+                    <ImageButton Grid.Column="0" x:Name="AddButt" Clicked="AddClicked" HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="add.png" Padding="5"/>
+                    <ImageButton Grid.Column="1" x:Name="RemButt" Clicked="RemClicked"  HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="remove.png" Padding="5"/>
+                    <ImageButton Grid.Column="2" x:Name="SaveButt" Clicked="SaveClicked"  HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="save.png" Padding="5"/>
+                    <ImageButton Grid.Column="3" x:Name="DownButt" Clicked="DownClicked" HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="download.png" Padding="5"/>
+                    <ImageButton Grid.Column="4" x:Name="SettButt" Clicked="SettingsClicked"  HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="settings.png" Padding="5"/>
+                </Grid>
+            </ScrollView>
+        </Grid>
+        <Grid Grid.Row="1" BackgroundColor="DarkSlateGray">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="222"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" Background="DarkSlateGray">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="42"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <ScrollView Grid.Row="0" Orientation="Both">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+                        <Label x:Name="ProjNameLabel" TextColor="White" Grid.Row="0" VerticalOptions="Center"  HorizontalOptions="Start"/>
+                        <Label x:Name="ProjBpmLabel" TextColor="White" Grid.Row="1" VerticalOptions="Center"  HorizontalOptions="Start"/>
+                    </Grid>
+                </ScrollView>
+                <ScrollView x:Name="TrackLabelsScrollView" Grid.Row="1" Orientation="Vertical" VerticalScrollBarVisibility="Never">
+                    <Grid x:Name="TrackLabelsGrid" BackgroundColor="DarkRed" RowSpacing="1">
+                        
+                    </Grid>
+                </ScrollView>
+            </Grid>
+            <Grid Grid.Column="1" Background="DarkSlateGray">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="42"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <ScrollView x:Name="LineScrollView" Grid.Row="0" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                    <Grid Background="DarkSlateGray" ColumnSpacing="0" RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="17"/>
+                            <RowDefinition Height="25"/>
+                        </Grid.RowDefinitions>
+                        <Grid x:Name="Numbers" Grid.Row="0" Background="DarkSlateGray" ColumnSpacing="0">
+                            
+                        </Grid>
+                        <Grid x:Name="Line" Grid.Row="1" Background="DarkSlateGray" ColumnSpacing="0">
+
+                        </Grid>
+                    </Grid>
+                </ScrollView>
+                <ScrollView x:Name="TrackScrollView" Grid.Row="1" Orientation="Both" VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
+                    <Grid x:Name="TrackGrid" Background="DarkSlateGray" RowSpacing="0" ColumnSpacing="1">
+                        
+                    </Grid>
+                </ScrollView>
+            </Grid>
+        </Grid>    
+    </Grid>
+</ContentPage>

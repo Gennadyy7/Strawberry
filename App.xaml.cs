@@ -5,8 +5,7 @@
         public App()
         {
             InitializeComponent();
-
-            MainPage = new Pianoroll();
+            MainPage = new NavigationPage(new Playlist());
         }
     }
 }

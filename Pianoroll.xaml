@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Strawberry.Pianoroll"
-             Title="Pianoroll">
+             Title="Pianoroll"
+             NavigationPage.HasNavigationBar="False">
     <Grid BackgroundColor="DarkRed">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="52"/>
@@ -21,12 +22,12 @@
                     <RowDefinition Height="70"/>
                 </Grid.RowDefinitions>
 
-                <Button Grid.Row="0" x:Name="BackButt" HeightRequest="42" WidthRequest="42" Background="DarkRed" ImageSource="back_arrow.png"/>
-                <Button Grid.Row="1" x:Name="PaintButt" Clicked="SelectPainting" HeightRequest="42" WidthRequest="42" Background="DarkRed" ImageSource="paint.png"/>
-                <Button Grid.Row="2" x:Name="ResizeButt" Clicked="ResizeNote" HeightRequest="42" WidthRequest="42" Background="DarkRed" ImageSource="resizing.png"/>
-                <Button Grid.Row="3" x:Name="VolumeSliderButt" Clicked="ChangeVolume" HeightRequest="42" WidthRequest="42" Background="DarkRed" ImageSource="volume_slider.png"/>
-                <Button Grid.Row="4" x:Name="SettingsButt" HeightRequest="42" WidthRequest="42" Background="DarkRed" ImageSource="settings.png"/>
-                <Button Grid.Row="5" x:Name="HarmonizeButt" HeightRequest="42" WidthRequest="42" Background="DarkRed" ImageSource="harmonize.png"/>
+                <ImageButton  Grid.Row="0" x:Name="BackButt" Clicked="GoBack" HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="back_arrow.png" Padding="5"/>
+                <ImageButton Grid.Row="1" x:Name="PaintButt" Clicked="SelectPainting" HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="paint.png" Padding="5"/>
+                <ImageButton Grid.Row="2" x:Name="ResizeButt" Clicked="ResizeNote" HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="resizing.png" Padding="5"/>
+                <ImageButton Grid.Row="3" x:Name="VolumeSliderButt" Clicked="ChangeVolume" HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="volume_slider.png" Padding="5"/>
+                <ImageButton Grid.Row="4" x:Name="SettingsButt" Clicked="SettingsClicked" HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="settings.png" Padding="5"/>
+                <ImageButton Grid.Row="5" x:Name="HarmonizeButt" HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="harmonize.png" Padding="5"/>
             </Grid>
         </ScrollView>
 
@@ -40,132 +41,132 @@
             <ScrollView x:Name="KeysScrollView" Grid.Row="1" Orientation="Vertical" VerticalScrollBarVisibility="Never">
                 <Grid x:Name="PianoKeysGrid" Background="Gray" RowSpacing="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Row="59" Text="C1" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="59" Text="C1" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="58" Text="Db1" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="57" Text="D1" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="57" Text="D1" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="56" Text="Eb1" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="55" Text="E1" BackgroundColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="54" Text="F1" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="55" Text="E1" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="54" Text="F1" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="53" Text="Gb1" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="52" Text="G1" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="52" Text="G1" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="51" Text="Ab1" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="50" Text="A1" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="50" Text="A1" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="49" Text="Bb1" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="48" Text="B1" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="48" Text="B1" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
 
-                    <Label Grid.Row="47" Text="C2" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="47" Text="C2" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="46" Text="Db2" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="45" Text="D2" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="45" Text="D2" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="44" Text="Eb2" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="43" Text="E2" BackgroundColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="42" Text="F2" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="43" Text="E2" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="42" Text="F2" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="41" Text="Gb2" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="40" Text="G2" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="40" Text="G2" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="39" Text="Ab2" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="38" Text="A2" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="38" Text="A2" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="37" Text="Bb2" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="36" Text="B2" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="36" Text="B2" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
 
-                    <Label Grid.Row="35" Text="C3" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="35" Text="C3" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="34" Text="Db3" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="33" Text="D3" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="33" Text="D3" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="32" Text="Eb3" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="31" Text="E3" BackgroundColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="30" Text="F3" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="31" Text="E3" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="30" Text="F3" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="29" Text="Gb3" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="28" Text="G3" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="28" Text="G3" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="27" Text="Ab3" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="26" Text="A3" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="26" Text="A3" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="25" Text="Bb3" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="24" Text="B3" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="24" Text="B3" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
 
-                    <Label Grid.Row="23" Text="C4" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="23" Text="C4" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="22" Text="Db4" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="21" Text="D4" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="21" Text="D4" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="20" Text="Eb4" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="19" Text="E4" BackgroundColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="18" Text="F4" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="19" Text="E4" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="18" Text="F4" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="17" Text="Gb4" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="16" Text="G4" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="16" Text="G4" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="15" Text="Ab4" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="14" Text="A4" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="14" Text="A4" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="13" Text="Bb4" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="12" Text="B4" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="12" Text="B4" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
 
-                    <Label Grid.Row="11" Text="C5" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="11" Text="C5" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="10" Text="Db5" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="9" Text="D5" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="9" Text="D5" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="8" Text="Eb5" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="7" Text="E5" BackgroundColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="6" Text="F5" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="7" Text="E5" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="6" Text="F5" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="5" Text="Gb5" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="4" Text="G5" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="4" Text="G5" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="3" Text="Ab5" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="2" Text="A5" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="2" Text="A5" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                     <Label Grid.Row="1" Text="Bb5" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="End" />
-                    <Label Grid.Row="0" Text="B5" BackgroundColor="White" HorizontalTextAlignment="End" />
+                    <Label Grid.Row="0" Text="B5" BackgroundColor="White" TextColor="Black" HorizontalTextAlignment="End" />
                 </Grid>
             </ScrollView>
         </Grid>
@@ -182,7 +183,7 @@
                 </Grid>
             </ScrollView>
             <ScrollView x:Name="NoteScrollView" Grid.Row="1" Orientation="Both">
-                <Grid x:Name="NoteGrid" Background="DarkSlateGray" RowSpacing="1" ColumnSpacing="1">
+                <Grid x:Name="NoteGrid" Background="DarkSlateGray" RowSpacing="1" ColumnSpacing="0">
 
                 </Grid>
             </ScrollView>

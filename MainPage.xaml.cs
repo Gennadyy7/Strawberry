@@ -37,10 +37,7 @@ namespace Strawberry
 
         private async void OnCounterClicked(object sender, EventArgs e)
         {
-            var t = Project.PlayFromPosition(0);
-            //await Task.Delay(1300);
-            //Project.Stop();
-            await Task.WhenAll(t);
+            Project.PlayFromPosition(0);
         }
     }
 

@@ -40,5 +40,15 @@ namespace Strawberry.Entities
             Pan = note.Pan;
             Sample = new Sample(sampleName, NotePitch);
         }
+
+        public Note()
+        {
+            NotePitch = Pitch.C3;
+            Duration = 0;
+            Position = 0;
+            Volume = 0;
+            Pan = 0;
+            Sample = new Sample("Piano", NotePitch);
+        }
     }
 }

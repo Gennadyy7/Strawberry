@@ -11,7 +11,7 @@ namespace Strawberry.Entities
         public string Name { get; set; }
         public string Instrument { get; set; }
         public int Volume { get; set; } = 80;
-        public bool isMuted { get; set; } = false;
+        public bool IsMuted { get; set; } = false;
         public int Pan { get; set; } = 0;
         public Dictionary<int, List<Note>> Notes { get; set; }
 
@@ -31,11 +31,11 @@ namespace Strawberry.Entities
         }
         public void Mute()
         {
-            isMuted = true;
+            IsMuted = true;
         }
         public void Unmute()
         {
-            isMuted = false;
+            IsMuted = false;
         }
         public void SetVolume(int volume)
         {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Strawberry.Entities
 {
@@ -11,23 +12,34 @@ namespace Strawberry.Entities
     {
         public string Name { get; set; }
         public List<Track> Tracks { get; set; }
-        public int SliderPos { get; set; } = 0;
-        public int Bpm { get; set; } = 120;
+        public int SliderPos { get; set; }
+        public int Bpm { get; set; }
         public CancellationTokenSource cts { get; set; }
-        public Project()
-        {
-            Tracks = new List<Track>();
-        }
+
+        private System.Timers.Timer _timer;
         public Project(string name, int bpm)
         {
             Name = name;
             Bpm = bpm;
+            SliderPos = 0;
+            Tracks = new List<Track>();
+        }
+
+        public Project()
+        {
+            Name = string.Empty;
+            Bpm = 0;
+            SliderPos = 0;
             Tracks = new List<Track>();
         }
 
         public void AddTrack(Track track)
         {
             Tracks.Add(track);
+        }
+        public void AddTrack(string trackName, string instrument)
+        {
+            Tracks.Add(new Track(trackName, instrument));
         }
         public void RemoveTrack(Track track)
         {
@@ -37,21 +49,40 @@ namespace Strawberry.Entities
         {
             Bpm = bpm;
         }
-        public async Task PlayFromPosition(int position)
+        public void PlayFromPosition(int position)
         {
+            if (_timer != null)
+            {
+                _timer.Stop();
+                _timer.Dispose();
+            }
+            Stop();
             cts = new CancellationTokenSource();
             SliderPos = position;
-            while (SliderPos < 16)
+            _timer = new System.Timers.Timer((15.0 / Bpm) * 1000);
+            _timer.Elapsed += OnTimedEvent;
+            _timer.AutoReset = true;
+            _timer.Enabled = true;
+        }
+
+        private void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            if (cts.Token.IsCancellationRequested)
+            {
+                _timer.Stop();
+                _timer.Dispose();
+            }
+            else
             {
                 foreach (var track in Tracks)
                 {
                     track.PlayNotesAtPosition(SliderPos, Bpm);
                 }
-                await Task.Delay((int)((15.0 / Bpm) * 1000));
                 SliderPos++;
-                if (cts.Token.IsCancellationRequested)
+                if (SliderPos >= 16)
                 {
-                    break;
+                    _timer.Stop();
+                    _timer.Dispose();
                 }
             }
         }

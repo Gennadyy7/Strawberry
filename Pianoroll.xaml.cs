@@ -1,18 +1,20 @@
 using CommunityToolkit.Maui.Views;
+using Microsoft.Maui.Controls;
 using Strawberry.Entities;
 
 namespace Strawberry;
 
 public partial class Pianoroll : ContentPage
 {
-    public Dictionary<int, List<Button>> ButtonNotes { get; set; }
     public int Length { get; set; }
 
     public bool CanPaint { get; set; } = false;
     public int Volume { get; set; } = 80;
-    public Track Track { get; set; }
-    public Project Project { get; set; }
-    public Pianoroll()
+    public Track Track { get; set; } = null;
+    public Project Project { get; set; } = null;
+
+    public static event Action BackEvent;
+    protected Pianoroll()
     {
         InitializeComponent();
 
@@ -21,29 +23,56 @@ public partial class Pianoroll : ContentPage
             NoteScrollView.ScrollToAsync(0, KeysScrollView.ScrollY, true);
         };
 
-        ButtonNotes = new Dictionary<int, List<Button>>();
-        Project = new Project("Test", 60);
-        Track = new Track("Test track", "Piano");
-        Project.AddTrack(Track);
         Length = 2;
+    }
 
+    public Pianoroll(Project project, int trackIndex):this()
+    {
+        Project = project;
+        Track = project.Tracks[trackIndex];
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        var page = Content;
+        Content = new Label
+        {
+            Text = "Загрузка...",
+            HorizontalOptions = LayoutOptions.Fill,
+            VerticalOptions = LayoutOptions.Fill,
+            BackgroundColor = Colors.DarkSlateGray,
+            TextColor = Colors.White,
+            HorizontalTextAlignment = TextAlignment.Center,
+            VerticalTextAlignment = TextAlignment.Center,
+        };
+        await Task.Delay(300);
+        await InitializeAsync();
+        await FillTheNotes();
+        Content = page;
+    }
+
+    public async Task InitializeAsync()
+    {
         for (int row = 0; row < 60; row++)
         {
+            NoteGrid.RowDefinitions.Add(new RowDefinition(25));
             for (int col = 0; col < 16; col++)
             {
-                Button button = new Button
+                Frame button = new Frame
                 {
-                    WidthRequest = 20,
-                    HeightRequest = 20,
-                    Text = string.Empty,
-                    CornerRadius = 1
+                    MinimumWidthRequest = 25,
+                    WidthRequest = 25,
+                    HeightRequest = 25,
+                    CornerRadius = 1,
+                    BorderColor = Colors.Black
                 };
 
                 button.BackgroundColor = Colors.White;
 
                 if (col % 4 == 0)
                 {
-                    button.BackgroundColor = Colors.LightSalmon;
+                    button.BackgroundColor = Color.FromRgb(255, 220, 182);
                 }
 
                 if (row % 12 == 1 || row % 12 == 3 || row % 12 == 5 || row % 12 == 8 || row % 12 == 10)
@@ -51,28 +80,68 @@ public partial class Pianoroll : ContentPage
                     button.BackgroundColor = Colors.LightGray;
                 }
 
-                button.AutomationId = $"cell_{row}_{col}";
-                button.Clicked += CellPressed;
+                var tapGestureRecognizer = new TapGestureRecognizer();
+                tapGestureRecognizer.Tapped += (s, e) => {
+                    CellPressed(s, e);
+                };
+                button.GestureRecognizers.Add(tapGestureRecognizer);
 
-                NoteGrid.Add(button, col, row);
+                NoteGrid.Add(button, column: col);
+                NoteGrid.SetRow(button, row);
 
-                if (!ButtonNotes.ContainsKey(col))
-                {
-                    ButtonNotes[col] = new List<Button>();
-                }
-
-                ButtonNotes[col].Add(button);
+                await Task.Delay(0);
             }
         }
     }
 
-    public async void ChangeVolume(object sender, EventArgs e)
+    public async Task FillTheNotes()
+    {
+        foreach (var noteGroup in Track.Notes)
+        {
+            foreach (var note in noteGroup.Value)
+            {
+                var button = NoteGrid.Children
+                    .OfType<Frame>()
+                    .FirstOrDefault(b => Grid.GetRow(b) == (int)note.NotePitch && Grid.GetColumn(b) == noteGroup.Key);
+                button.BackgroundColor = Colors.Black;
+                button.WidthRequest = button.WidthRequest * note.Duration;
+                NoteGrid.SetColumnSpan(button, note.Duration);
+
+                for (int i = 1; i < note.Duration; i++)
+                {
+                    Frame overlappedButton = NoteGrid.Children
+                    .OfType<Frame>()
+                    .FirstOrDefault(b => Grid.GetRow(b) == (int)note.NotePitch && Grid.GetColumn(b) == noteGroup.Key + i);
+                    NoteGrid.Children.Remove(overlappedButton);
+                }
+
+                await Task.Delay(0);
+            }
+        }
+    }
+    public void ChangeVolume(object sender, EventArgs e)
     {
         //string vol = await DisplayPromptAsync("Громкость дорожки", "Введите целое значение громкости (от 0% до 100%)", initialValue: Volume.ToString(), maxLength: 3, keyboard: Keyboard.Numeric, cancel: null);
         //Volume = Math.Abs((int)double.Parse((vol == null)? Volume.ToString() : vol));
         //var popup = new VolumeSlider(this);
         //this.ShowPopup(popup);
-        await Project.PlayFromPosition(0);
+        Project.PlayFromPosition(0);
+    }
+
+    public void GoBack(object sender, EventArgs e)
+    {
+        BackEvent?.Invoke();
+        SwitchToPlaylist();
+    }
+
+    public async void SwitchToPlaylist()
+    {
+        await Navigation.PopAsync(false);
+    }
+
+    public void SettingsClicked(object sender, EventArgs e)
+    {
+        Project.Stop();
     }
     public void SelectPainting(object sender, EventArgs e)
     {
@@ -89,39 +158,66 @@ public partial class Pianoroll : ContentPage
     }
     public async void ResizeNote(object sender, EventArgs e)
     {
-        string l = await DisplayActionSheet("Выберите длину ноты:", null, null, "1", "2", "4", "8", "16");
+        string l = await Application.Current.MainPage.DisplayActionSheet("Выберите длину ноты:", null, null, "1", "2", "4", "8", "16");
         Length = Int32.Parse((l == null) ? Length.ToString() : l);
     }
     public void CellPressed(object sender, EventArgs e)
     {
         if (CanPaint)
         {
-            Button s = (Button)sender;
+            Frame s = (Frame)sender;
             int column = Grid.GetColumn(s);
             int row = Grid.GetRow(s);
 
-            if (s.BackgroundColor == Colors.DarkOrange)
+            if (s.BackgroundColor == Colors.Black)
             {
                 s.BackgroundColor = Colors.White;
 
                 if (column % 4 == 0)
                 {
-                    s.BackgroundColor = Colors.LightSalmon;
+                    s.BackgroundColor = Color.FromRgb(255, 220, 182);
                 }
-
+                
                 if (row % 12 == 1 || row % 12 == 3 || row % 12 == 5 || row % 12 == 8 || row % 12 == 10)
                 {
                     s.BackgroundColor = Colors.LightGray;
                 }
 
-                s.WidthRequest = 20;
+                s.WidthRequest = 25;
                 int tempLenght = NoteGrid.GetColumnSpan(s);
                 NoteGrid.SetColumnSpan(s, 1);
 
                 for (int i = 1; i < Math.Min(tempLenght, 16 - column); i++)
                 {
-                    Button removedButton = ButtonNotes[column + i][row];
-                    NoteGrid.Children.Add(removedButton);
+                    Frame removedButton = new Frame
+                    {
+                        MinimumWidthRequest = 25,
+                        WidthRequest = 25,
+                        HeightRequest = 25,
+                        CornerRadius = 1,
+                        BorderColor = Colors.Black
+                    };
+
+                    removedButton.BackgroundColor = Colors.White;
+
+                    if ((column + i) % 4 == 0)
+                    {
+                        removedButton.BackgroundColor = Color.FromRgb(255, 220, 182);
+                    }
+                    
+                    if (row % 12 == 1 || row % 12 == 3 || row % 12 == 5 || row % 12 == 8 || row % 12 == 10)
+                    {
+                        removedButton.BackgroundColor = Colors.LightGray;
+                    }
+
+                    var tapGestureRecognizer = new TapGestureRecognizer();
+                    tapGestureRecognizer.Tapped += (s, e) => {
+                        CellPressed(s, e);
+                    };
+                    removedButton.GestureRecognizers.Add(tapGestureRecognizer);
+
+                    NoteGrid.Add(removedButton, column: column + i);
+                    NoteGrid.SetRow(removedButton, row);
                 }
 
                 Track.RemoveNote((Pitch)row, column);
@@ -131,7 +227,10 @@ public partial class Pianoroll : ContentPage
                 int maxSpan = 1;
                 for (int i = 1; i < Length; i++)
                 {
-                    if (column + i < 16 && ButtonNotes[column + i][row].BackgroundColor != Colors.DarkOrange)
+                    Frame overlappedButton = NoteGrid.Children
+                    .OfType<Frame>()
+                    .FirstOrDefault(b => Grid.GetRow(b) == row && Grid.GetColumn(b) == column + i);
+                    if (column + i < 16 && overlappedButton != null && overlappedButton.BackgroundColor != Colors.Black)
                     {
                         maxSpan = 1 + i;
                     }
@@ -141,13 +240,15 @@ public partial class Pianoroll : ContentPage
                     }
                 }
 
-                s.BackgroundColor = Colors.DarkOrange;
+                s.BackgroundColor = Colors.Black;
                 s.WidthRequest = s.Width * maxSpan;
                 NoteGrid.SetColumnSpan(s, maxSpan);
 
                 for (int i = 1; i < maxSpan; i++)
                 {
-                    Button overlappedButton = ButtonNotes[column + i][row];
+                    Frame overlappedButton = NoteGrid.Children
+                    .OfType<Frame>()
+                    .FirstOrDefault(b => Grid.GetRow(b) == row && Grid.GetColumn(b) == column + i);
                     NoteGrid.Children.Remove(overlappedButton);
                 }
 
