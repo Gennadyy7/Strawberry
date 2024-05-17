@@ -31,12 +31,16 @@
                         <ColumnDefinition Width="70"/>
                         <ColumnDefinition Width="70"/>
                         <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="70"/>
                     </Grid.ColumnDefinitions>
                     <ImageButton Grid.Column="0" x:Name="AddButt" Clicked="AddClicked" HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="add.png" Padding="5"/>
                     <ImageButton Grid.Column="1" x:Name="RemButt" Clicked="RemClicked"  HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="remove.png" Padding="5"/>
                     <ImageButton Grid.Column="2" x:Name="SaveButt" Clicked="SaveClicked"  HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="save.png" Padding="5"/>
                     <ImageButton Grid.Column="3" x:Name="DownButt" Clicked="DownClicked" HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="download.png" Padding="5"/>
                     <ImageButton Grid.Column="4" x:Name="SettButt" Clicked="SettingsClicked"  HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="settings.png" Padding="5"/>
+                    <ImageButton Grid.Column="5" x:Name="PlayButt" Clicked="PlayClicked"  HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="play.png" Padding="5"/>
+                    <ImageButton Grid.Column="6" x:Name="StopButt" Clicked="StopClicked"  HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="stop.png" Padding="5"/>
                 </Grid>
             </ScrollView>
         </Grid>

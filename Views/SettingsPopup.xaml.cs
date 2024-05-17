@@ -13,6 +13,8 @@ public partial class SettingsPopup : Popup
 	{
 		InitializeComponent();
         Project = project;
+        ProjectNameEntry.Text = project.Name;
+        ProjectBpmEntry.Text = project.Bpm.ToString();
     }
 
     public void TryingToChangeName(object sender, EventArgs e)

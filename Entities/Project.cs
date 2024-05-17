@@ -17,6 +17,9 @@ namespace Strawberry.Entities
         public CancellationTokenSource cts { get; set; }
 
         private System.Timers.Timer _timer;
+
+        public Playlist Playlist { get; set; }
+
         public Project(string name, int bpm)
         {
             Name = name;
@@ -64,7 +67,6 @@ namespace Strawberry.Entities
             _timer.AutoReset = true;
             _timer.Enabled = true;
         }
-
         private void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
             if (cts.Token.IsCancellationRequested)
@@ -74,6 +76,7 @@ namespace Strawberry.Entities
             }
             else
             {
+                Playlist.ToPosition(SliderPos);
                 foreach (var track in Tracks)
                 {
                     track.PlayNotesAtPosition(SliderPos, Bpm);

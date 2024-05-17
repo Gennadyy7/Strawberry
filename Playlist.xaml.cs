@@ -14,6 +14,7 @@ public partial class Playlist : ContentPage
     public Playlist()
 	{
 		InitializeComponent();
+        StopButt.IsEnabled = false;
 
         Pianoroll.BackEvent += BackHandler;
 
@@ -71,6 +72,20 @@ public partial class Playlist : ContentPage
             //db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
         }
+
+        Project.Playlist = this;
+    }
+
+    public void ToPosition(int position)
+    {
+        Application.Current.Dispatcher.Dispatch(() =>
+        {
+            Line.Children.Cast<Frame>().First(c => Grid.GetColumn(c) == position).BackgroundColor = Colors.Red;
+            if (position != 0)
+            {
+                Line.Children.Cast<Frame>().First(c => Grid.GetColumn(c) == position - 1).BackgroundColor = Colors.White;
+            }
+        });
     }
 
     public void AddClicked(object sender, EventArgs e)
@@ -80,9 +95,30 @@ public partial class Playlist : ContentPage
         this.ShowPopup(popup);
     }
 
-    public void BackHandler()
+    public async void BackHandler()
     {
-        //IsSwitching = false;
+        var page = Content;
+        Content = new Label
+        {
+            Text = "Загрузка...",
+            HorizontalOptions = LayoutOptions.Fill,
+            VerticalOptions = LayoutOptions.Fill,
+            BackgroundColor = Colors.DarkSlateGray,
+            TextColor = Colors.White,
+            HorizontalTextAlignment = TextAlignment.Center,
+            VerticalTextAlignment = TextAlignment.Center,
+        };
+        await Task.Delay(300);
+        foreach (var track in Project.Tracks)
+        {
+            var trackButton = TrackGrid.Children
+                .OfType<Grid>()
+                .FirstOrDefault(b => Grid.GetRow(b) == Project.Tracks.IndexOf(track));
+
+            var label = trackButton.Children.OfType<Label>().First();
+            label.Text = track.Name + " (кол-во нот: " + track.Notes.Sum(n => n.Value.Count) + ")";
+        }
+        Content = page;
     }
 
     private void OnTrackAdded()
@@ -374,6 +410,8 @@ public partial class Playlist : ContentPage
 
         ProjNameLabel.Text = $"Project: {Project.Name}";
         ProjBpmLabel.Text = $"Bpm: {Project.Bpm}";
+
+        Project.Playlist = this;
     }
 
     public void SettingsClicked(object sender, EventArgs e)
@@ -387,5 +425,27 @@ public partial class Playlist : ContentPage
     {
         ProjNameLabel.Text = $"Project: {Project.Name}";
         ProjBpmLabel.Text = $"Bpm: {Project.Bpm}";
+    }
+
+    public void PlayClicked(object sender, EventArgs e)
+    {
+        foreach (var cell in Line.Children.Cast<Frame>())
+        {
+            cell.BackgroundColor = Colors.White;
+        }
+
+        PlayButt.IsEnabled = false;
+        StopButt.IsEnabled = true;
+
+        //Task.Delay(300);
+
+        Project.PlayFromPosition(0);
+    }
+
+    public void StopClicked(object sender, EventArgs e)
+    {
+        Project.Stop();
+        PlayButt.IsEnabled = true;
+        StopButt.IsEnabled = false;
     }
 }

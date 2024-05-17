@@ -35,7 +35,7 @@ namespace Strawberry
             Project.AddTrack(track2);
         }
 
-        private async void OnCounterClicked(object sender, EventArgs e)
+        private void OnCounterClicked(object sender, EventArgs e)
         {
             Project.PlayFromPosition(0);
         }
