@@ -76,15 +76,117 @@ public partial class Playlist : ContentPage
         Project.Playlist = this;
     }
 
+    public async void PlaylistUpdate()
+    {
+        await ClearLine();
+        await LineUpdate();
+        await ClearTrackGrid();
+        await TrackGridUpdate();
+    }
+
+    public async Task LineUpdate()
+    {
+        for (int col = 0; col < Project.Length; col++)
+        {
+            Line.ColumnDefinitions.Add(new ColumnDefinition(25));
+            Numbers.ColumnDefinitions.Add(new ColumnDefinition(25));
+
+            Frame frame = new Frame
+            {
+                WidthRequest = 25,
+                HeightRequest = 25,
+                CornerRadius = 1,
+                BorderColor = Colors.Black,
+                BackgroundColor = Colors.White,
+                VerticalOptions = LayoutOptions.End
+            };
+
+            Label numberLabel = new Label
+            {
+                WidthRequest = 25,
+                HeightRequest = 17,
+                Text = (col + 1).ToString(),
+                FontSize = 10,
+                HorizontalOptions = LayoutOptions.Start,
+                VerticalOptions = LayoutOptions.End,
+                TextColor = Colors.White
+            };
+
+            if (col % 4 == 0)
+            {
+                numberLabel.FontAttributes = FontAttributes.Bold;
+            }
+
+            Numbers.Add(numberLabel, column: col);
+            Line.Add(frame, column: col);
+
+            await Task.Delay(0);
+        }
+    }
+
+    public async Task ClearLine()
+    {
+        Line.Children.Clear();
+        Line.RowDefinitions.Clear();
+        Line.ColumnDefinitions.Clear();
+
+        await Task.Delay(0);
+    }
+
+    public async Task ClearTrackGrid()
+    {
+        TrackGrid.Children.Clear();
+        TrackGrid.RowDefinitions.Clear();
+        TrackGrid.ColumnDefinitions.Clear();
+
+        await Task.Delay(0);
+    }
+
+    public async Task TrackGridUpdate()
+    {
+        foreach (var track in Project.Tracks)
+        {
+            int trackIndex = Project.Tracks.IndexOf(track);
+            var trackGrid = (Grid)TrackLabelsGrid.Children[trackIndex];
+            var trackLabel = (Label)trackGrid.Children.FirstOrDefault(x => x.GetType() == typeof(Label));
+            var button = new Grid
+            {
+                WidthRequest = 25 * Project.Length,
+                HeightRequest = 52,
+                BackgroundColor = trackLabel.BackgroundColor,
+                Children =
+                {
+                    new Label
+                    {
+                        Text = track.Name + " (êîë-âî íîò: " + track.Notes.Sum(n => n.Value.Count) + ")",
+                        TextColor = Colors.Black,
+                        HorizontalOptions = LayoutOptions.Start,
+                        VerticalOptions = LayoutOptions.Center,
+                        Padding = new Thickness(5, 0, 0, 0)
+                    }
+                }
+            };
+
+            var tapGestureRecognizer = new TapGestureRecognizer();
+            tapGestureRecognizer.Tapped += TrackPressed;
+            button.GestureRecognizers.Add(tapGestureRecognizer);
+            TrackGrid.AddRowDefinition(new RowDefinition(52));
+            TrackGrid.Children.Add(button);
+            TrackGrid.SetRow(button, Project.Tracks.IndexOf(track));
+
+            await Task.Delay(0);
+        }
+    }
+
     public void ToPosition(int position)
     {
         Application.Current.Dispatcher.Dispatch(() =>
         {
-            //Line.Children.Cast<Frame>().First(c => Grid.GetColumn(c) == position).BackgroundColor = Colors.Red;
-            /*if (position != 0)
+            Line.Children.Cast<Frame>().First(c => Grid.GetColumn(c) == position).BackgroundColor = Colors.Red;
+            if (position != 0)
             {
-                Line.Children.Cast<Frame>().First(c => Grid.GetColumn(c) == position - 1).BackgroundColor = Colors.White;
-            }*/
+                Line.Children.Cast<Frame>().First(c => Grid.GetColumn(c) == position - 1).BackgroundColor = Colors.White; // ÄÎÁÀÂÈÒÜ ÂÎÇÌÎÆÍÎÑÒÜ ÎÏÒÈÌÈÇÈÐÎÂÀÒÜ ÏÐÎÈÃÐÛÂÀÍÈÅ ÏÓÒÅÌ ÎÒÊËÞ×ÅÍÈß ÑËÅÆÅÍÈß ÊÓÐÑÎÐÀ. ÅÑËÈ ÇÀÊÎÌÌÅÍÒÈÒÜ ÒÓÒ ÊÎÄ, ÒÎ ÍÎÒÛ ÏÐÎÈÃÐÛÂÀÞÒÑßÁÅÇ ÏÐÎÁËÅÌ
+            }
         });
     }
 
@@ -110,18 +212,19 @@ public partial class Playlist : ContentPage
         };
         await Task.Delay(300);
 
-        var length = (int)(Math.Ceiling(Project.Tracks.SelectMany(track => track.Notes.Keys).Max() / 16.0) * 16);
+        int length = 0;
+        try
+        {
+            length = (int)((Math.Floor(Project.Tracks.SelectMany(track => track.Notes.Keys).Max() / 16.0) + 1) * 16);
+        }
+        catch
+        {
+            length = 0;
+        }
         Project.Length = length != 0 ? length : 16;
 
-        foreach (var track in Project.Tracks)
-        {
-            var trackButton = TrackGrid.Children
-                .OfType<Grid>()
-                .FirstOrDefault(b => Grid.GetRow(b) == Project.Tracks.IndexOf(track));
+        PlaylistUpdate();
 
-            var label = trackButton.Children.OfType<Label>().First();
-            label.Text = track.Name + " (êîë-âî íîò: " + track.Notes.Sum(n => n.Value.Count) + ")";
-        }
         Content = page;
     }
 
@@ -130,7 +233,7 @@ public partial class Playlist : ContentPage
         Random random = new Random();
         var button = new Grid
         {
-            WidthRequest = 25 * 16,
+            WidthRequest = 25 * Project.Length,
             HeightRequest = 52,
             BackgroundColor = Color.FromRgb(random.Next(130, 170), random.Next(130, 170), random.Next(130, 170)),
             Children =
@@ -341,6 +444,17 @@ public partial class Playlist : ContentPage
             };
         }
 
+        int length = 0;
+        try
+        {
+            length = (int)((Math.Floor(Project.Tracks.SelectMany(track => track.Notes.Keys).Max() / 16.0) + 1) * 16);
+        }
+        catch
+        {
+            length = 0;
+        }
+        Project.Length = length != 0 ? length : 16;
+
         TrackGrid.Children.Clear();
         TrackGrid.RowDefinitions.Clear();
         TrackLabelsGrid.Children.Clear();
@@ -349,30 +463,7 @@ public partial class Playlist : ContentPage
         foreach (var track in Project.Tracks)
         {
             Random random = new Random();
-            var button = new Grid
-            {
-                WidthRequest = 25 * 16,
-                HeightRequest = 52,
-                BackgroundColor = Color.FromRgb(random.Next(130, 170), random.Next(130, 170), random.Next(130, 170)),
-                Children =
-                {
-                    new Label
-                    {
-                        Text = track.Name + " (êîë-âî íîò: " + track.Notes.Sum(n => n.Value.Count) + ")",
-                        TextColor = Colors.Black,
-                        HorizontalOptions = LayoutOptions.Start,
-                        VerticalOptions = LayoutOptions.Center,
-                        Padding = new Thickness(5, 0, 0, 0)
-                    }
-                }
-            };
-
-            var tapGestureRecognizer = new TapGestureRecognizer();
-            tapGestureRecognizer.Tapped += TrackPressed;
-            button.GestureRecognizers.Add(tapGestureRecognizer);
-            TrackGrid.AddRowDefinition(new RowDefinition(52));
-            TrackGrid.Children.Add(button);
-            TrackGrid.SetRow(button, Project.Tracks.IndexOf(track));
+            var bc = Color.FromRgb(random.Next(130, 170), random.Next(130, 170), random.Next(130, 170));
 
 
 
@@ -384,7 +475,7 @@ public partial class Playlist : ContentPage
                 HorizontalTextAlignment = TextAlignment.Start,
                 HeightRequest = 52,
                 TextColor = Colors.Black,
-                BackgroundColor = button.BackgroundColor,
+                BackgroundColor = bc,
                 HorizontalOptions = LayoutOptions.Fill,
                 VerticalOptions = LayoutOptions.Center,
                 Padding = new Thickness(5, 0, 0, 0)
@@ -401,7 +492,7 @@ public partial class Playlist : ContentPage
 
             var grid = new Grid
             {
-                BackgroundColor = button.BackgroundColor,
+                BackgroundColor = bc,
                 Children = { trackLabel, instrumentImage },
                 HorizontalOptions = LayoutOptions.Fill,
                 VerticalOptions = LayoutOptions.Fill
@@ -417,8 +508,7 @@ public partial class Playlist : ContentPage
 
         Project.Playlist = this;
 
-        var length = (int)(Math.Ceiling(Project.Tracks.SelectMany(track => track.Notes.Keys).Max() / 16.0) * 16);
-        Project.Length = length != 0 ? length : 16;
+        PlaylistUpdate();
     }
 
     public void SettingsClicked(object sender, EventArgs e)

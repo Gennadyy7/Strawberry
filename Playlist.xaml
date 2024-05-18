@@ -65,7 +65,7 @@
                     </Grid>
                 </ScrollView>
                 <ScrollView x:Name="TrackLabelsScrollView" Grid.Row="1" Orientation="Vertical" VerticalScrollBarVisibility="Never">
-                    <Grid x:Name="TrackLabelsGrid" BackgroundColor="DarkRed" RowSpacing="1">
+                    <Grid x:Name="TrackLabelsGrid" BackgroundColor="DarkRed" RowSpacing="0">
                         
                     </Grid>
                 </ScrollView>
