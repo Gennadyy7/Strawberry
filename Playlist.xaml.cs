@@ -80,11 +80,11 @@ public partial class Playlist : ContentPage
     {
         Application.Current.Dispatcher.Dispatch(() =>
         {
-            Line.Children.Cast<Frame>().First(c => Grid.GetColumn(c) == position).BackgroundColor = Colors.Red;
-            if (position != 0)
+            //Line.Children.Cast<Frame>().First(c => Grid.GetColumn(c) == position).BackgroundColor = Colors.Red;
+            /*if (position != 0)
             {
                 Line.Children.Cast<Frame>().First(c => Grid.GetColumn(c) == position - 1).BackgroundColor = Colors.White;
-            }
+            }*/
         });
     }
 
@@ -110,7 +110,8 @@ public partial class Playlist : ContentPage
         };
         await Task.Delay(300);
 
-        Project.Length = (int)(Math.Ceiling(Project.Tracks.SelectMany(track => track.Notes.Keys).Max() / 16.0) * 16);
+        var length = (int)(Math.Ceiling(Project.Tracks.SelectMany(track => track.Notes.Keys).Max() / 16.0) * 16);
+        Project.Length = length != 0 ? length : 16;
 
         foreach (var track in Project.Tracks)
         {
@@ -416,7 +417,8 @@ public partial class Playlist : ContentPage
 
         Project.Playlist = this;
 
-        Project.Length = (int)(Math.Ceiling(Project.Tracks.SelectMany(track => track.Notes.Keys).Max() / 16.0) * 16);
+        var length = (int)(Math.Ceiling(Project.Tracks.SelectMany(track => track.Notes.Keys).Max() / 16.0) * 16);
+        Project.Length = length != 0 ? length : 16;
     }
 
     public void SettingsClicked(object sender, EventArgs e)

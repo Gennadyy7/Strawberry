@@ -14,6 +14,8 @@ public partial class Pianoroll : ContentPage
     public Project Project { get; set; } = null;
 
     public static event Action BackEvent;
+
+    public int Hex { get; set; } = 0;
     protected Pianoroll()
     {
         InitializeComponent();
@@ -48,8 +50,51 @@ public partial class Pianoroll : ContentPage
         };
         await Task.Delay(300);
         await InitializeAsync();
-        await FillTheNotes();
+        await FillTheNotes(0);
         Content = page;
+    }
+
+    public async void NoteGridChange(bool next)
+    {
+        if ((next && (Hex + 1) * 16 >= 1600) || (!next && (Hex - 1) * 16 < 0))
+            return;
+
+        var page = Content;
+        Content = new Label
+        {
+            Text = "Загрузка...",
+            HorizontalOptions = LayoutOptions.Fill,
+            VerticalOptions = LayoutOptions.Fill,
+            BackgroundColor = Colors.DarkSlateGray,
+            TextColor = Colors.White,
+            HorizontalTextAlignment = TextAlignment.Center,
+            VerticalTextAlignment = TextAlignment.Center,
+        };
+        await Task.Delay(300);
+        await ClearNoteGrid();
+        await InitializeAsync();
+        
+        if (next)
+        {
+            Hex++;
+        }
+        else
+        {
+            Hex--;
+        }
+
+        await FillTheNotes(Hex * 16);
+
+        Content = page;
+    }
+
+    public async Task ClearNoteGrid()
+    {
+        NoteGrid.Children.Clear();
+        NoteGrid.RowDefinitions.Clear();
+        NoteGrid.ColumnDefinitions.Clear();
+
+        await Task.Delay(0);
     }
 
     public async Task InitializeAsync()
@@ -94,15 +139,19 @@ public partial class Pianoroll : ContentPage
         }
     }
 
-    public async Task FillTheNotes()
+    public async Task FillTheNotes(int startPosition)
     {
+        int endPosition = startPosition + 16;
         foreach (var noteGroup in Track.Notes)
         {
+            if (noteGroup.Key < startPosition || noteGroup.Key >= endPosition)
+                continue;
+
             foreach (var note in noteGroup.Value)
             {
                 var button = NoteGrid.Children
                     .OfType<Frame>()
-                    .FirstOrDefault(b => Grid.GetRow(b) == (int)note.NotePitch && Grid.GetColumn(b) == noteGroup.Key);
+                    .FirstOrDefault(b => Grid.GetRow(b) == (int)note.NotePitch && Grid.GetColumn(b) == noteGroup.Key % 16);
                 button.BackgroundColor = Colors.Black;
                 button.WidthRequest = button.WidthRequest * note.Duration;
                 NoteGrid.SetColumnSpan(button, note.Duration);
@@ -111,7 +160,7 @@ public partial class Pianoroll : ContentPage
                 {
                     Frame overlappedButton = NoteGrid.Children
                     .OfType<Frame>()
-                    .FirstOrDefault(b => Grid.GetRow(b) == (int)note.NotePitch && Grid.GetColumn(b) == noteGroup.Key + i);
+                    .FirstOrDefault(b => Grid.GetRow(b) == (int)note.NotePitch && Grid.GetColumn(b) == (noteGroup.Key % 16) + i);
                     NoteGrid.Children.Remove(overlappedButton);
                 }
 
@@ -227,7 +276,7 @@ public partial class Pianoroll : ContentPage
                     NoteGrid.SetRow(removedButton, row);
                 }
 
-                Track.RemoveNote((Pitch)row, column);
+                Track.RemoveNote((Pitch)row, column + Hex * 16);
             }
             else
             {
@@ -259,16 +308,19 @@ public partial class Pianoroll : ContentPage
                     NoteGrid.Children.Remove(overlappedButton);
                 }
 
-                Track.AddNote((Pitch)row, maxSpan, column, 100, 0);
+                Track.AddNote((Pitch)row, maxSpan, column + Hex * 16, 100, 0);
             }
         }
     }
 
     public void NextClicked(object sender, EventArgs e)
     {
+        NoteGridChange(true);
     }
 
     public void PrevClicked(object sender, EventArgs e)
     {
+        NoteGridChange(false);
     }
+
 }
