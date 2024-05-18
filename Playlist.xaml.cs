@@ -109,6 +109,9 @@ public partial class Playlist : ContentPage
             VerticalTextAlignment = TextAlignment.Center,
         };
         await Task.Delay(300);
+
+        Project.Length = (int)(Math.Ceiling(Project.Tracks.SelectMany(track => track.Notes.Keys).Max() / 16.0) * 16);
+
         foreach (var track in Project.Tracks)
         {
             var trackButton = TrackGrid.Children
@@ -412,6 +415,8 @@ public partial class Playlist : ContentPage
         ProjBpmLabel.Text = $"Bpm: {Project.Bpm}";
 
         Project.Playlist = this;
+
+        Project.Length = (int)(Math.Ceiling(Project.Tracks.SelectMany(track => track.Notes.Keys).Max() / 16.0) * 16);
     }
 
     public void SettingsClicked(object sender, EventArgs e)
@@ -434,18 +439,23 @@ public partial class Playlist : ContentPage
             cell.BackgroundColor = Colors.White;
         }
 
-        PlayButt.IsEnabled = false;
-        StopButt.IsEnabled = true;
-
-        //Task.Delay(300);
-
+        ButtonActivation(false, true);
         Project.PlayFromPosition(0);
     }
 
     public void StopClicked(object sender, EventArgs e)
     {
         Project.Stop();
-        PlayButt.IsEnabled = true;
-        StopButt.IsEnabled = false;
+        ButtonActivation(true, false);
     }
+
+    public void ButtonActivation(bool play, bool stop)
+    {
+        Application.Current.Dispatcher.Dispatch(() =>
+        {
+            PlayButt.IsEnabled = play;
+            StopButt.IsEnabled = stop;
+        });
+    }
+
 }

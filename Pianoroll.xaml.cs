@@ -134,6 +134,13 @@ public partial class Pianoroll : ContentPage
         SwitchToPlaylist();
     }
 
+    protected override bool OnBackButtonPressed()
+    {
+        BackEvent?.Invoke();
+        SwitchToPlaylist();
+        return true;
+    }
+
     public async void SwitchToPlaylist()
     {
         await Navigation.PopAsync(false);
@@ -255,5 +262,13 @@ public partial class Pianoroll : ContentPage
                 Track.AddNote((Pitch)row, maxSpan, column, 100, 0);
             }
         }
+    }
+
+    public void NextClicked(object sender, EventArgs e)
+    {
+    }
+
+    public void PrevClicked(object sender, EventArgs e)
+    {
     }
 }

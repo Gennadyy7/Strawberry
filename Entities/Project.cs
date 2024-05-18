@@ -17,6 +17,7 @@ namespace Strawberry.Entities
         public CancellationTokenSource cts { get; set; }
 
         private System.Timers.Timer _timer;
+        public int Length { get; set; } = 16;
 
         public Playlist Playlist { get; set; }
 
@@ -82,10 +83,11 @@ namespace Strawberry.Entities
                     track.PlayNotesAtPosition(SliderPos, Bpm);
                 }
                 SliderPos++;
-                if (SliderPos >= 16)
+                if (SliderPos >= Length)
                 {
                     _timer.Stop();
                     _timer.Dispose();
+                    Playlist.ButtonActivation(true, false);
                 }
             }
         }
