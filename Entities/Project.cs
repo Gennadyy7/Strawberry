@@ -105,19 +105,27 @@ namespace Strawberry.Entities
         public void Stop()
         {
             cts?.Cancel();
-            foreach (var track in Tracks)
+            try
             {
-                foreach (var position in track.Notes.Keys)
+                foreach (var track in Tracks)
                 {
-                    if (position <= SliderPos)
+                    foreach (var position in track.Notes.Keys)
                     {
-                        foreach (var note in track.Notes[position])
+                        if (position <= SliderPos)
                         {
-                            note.Sample.Sound.Stop();
+                            foreach (var note in track.Notes[position])
+                            {
+                                note.Sample.Sound.Stop();
+                            }
                         }
                     }
                 }
             }
+            catch (NullReferenceException)
+            {
+                return;
+            }
         }
+
     }
 }

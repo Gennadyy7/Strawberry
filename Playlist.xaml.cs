@@ -323,6 +323,7 @@ public partial class Playlist : ContentPage
         }
         else
         {
+            StopClicked(sender, e);
             var trackButton = (Grid)sender;
             var trackIndex = TrackGrid.GetRow(trackButton);
             var selectedTrack = Project.Tracks[trackIndex];

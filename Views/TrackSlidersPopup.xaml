@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="Strawberry.Views.TrackSlidersPopup"
+              CanBeDismissedByTappingOutsideOfPopup="False"
+              HorizontalOptions="Fill"
+              VerticalOptions="Center">
+    <Grid RowSpacing="5" HorizontalOptions="Fill" VerticalOptions="Fill" Background="DarkSlateGray" Padding="5" ColumnSpacing="60">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Slider x:Name="VolumeSlider" BackgroundColor="White" Minimum="0" Maximum="100" Value="{Binding Volume}" Grid.Row="0" Grid.ColumnSpan="2"/>
+        <Slider x:Name="BalanceSlider" BackgroundColor="White" Minimum="-1" Maximum="1" Value="{Binding Balance}" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <Button Clicked="OkClicked" Background="DarkRed" WidthRequest="100" HeightRequest="50" Grid.Row="2" Grid.Column="0" Text="Ок" TextColor="White" HorizontalOptions="StartAndExpand"/>
+        <Button Clicked="CancelClicked" Background="DarkRed" WidthRequest="100" HeightRequest="50" Grid.Row="2" Grid.Column="1" Text="Отмена" TextColor="White" HorizontalOptions="EndAndExpand"/>
+    </Grid>
+
+</toolkit:Popup>
