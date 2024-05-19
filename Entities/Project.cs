@@ -29,6 +29,7 @@ namespace Strawberry.Entities
             Bpm = bpm;
             SliderPos = 0;
             Tracks = new List<Track>();
+            Playlist.OptimizationEvent += OnOptimization;
         }
 
         public Project()

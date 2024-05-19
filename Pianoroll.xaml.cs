@@ -195,7 +195,7 @@ public partial class Pianoroll : ContentPage
 
     public void SettingsClicked(object sender, EventArgs e)
     {
-        Project.Stop();
+
     }
     public void SelectPainting(object sender, EventArgs e)
     {

@@ -42,7 +42,7 @@
                     <ImageButton Grid.Column="4" x:Name="SettButt" Clicked="SettingsClicked"  HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="settings.png" Padding="5"/>
                     <ImageButton Grid.Column="5" x:Name="PlayButt" Clicked="PlayClicked"  HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="play.png" Padding="5"/>
                     <ImageButton Grid.Column="6" x:Name="StopButt" Clicked="StopClicked"  HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="stop.png" Padding="5"/>
-                    <StackLayout Grid.Column="7" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
+                    <StackLayout x:Name="OptStack" Grid.Column="7" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
                         <CheckBox x:Name="OptimizeCheckBox" CheckedChanged="Optimize" VerticalOptions="Center"/>
                         <Label Text="Оптимизация воспроизведения" VerticalOptions="Center" TextColor="White"/>
                     </StackLayout>

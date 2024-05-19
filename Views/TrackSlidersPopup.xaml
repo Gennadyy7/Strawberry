@@ -16,8 +16,8 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Entry x:Name="VolumeEntry" PlaceholderColor="DarkSlateGray" Placeholder="Введите громкость (%)" Keyboard="Numeric" BackgroundColor="WhiteSmoke" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
-        <Entry x:Name="BalanceEntry" PlaceholderColor="DarkSlateGray" Placeholder="Введите баланс (от -100 до 100)" Keyboard="Numeric" BackgroundColor="WhiteSmoke" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <Entry x:Name="VolumeEntry" TextChanged="VolumeChanged" PlaceholderColor="DarkSlateGray" Placeholder="Введите громкость (%)" Keyboard="Numeric" BackgroundColor="WhiteSmoke" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <Entry x:Name="BalanceEntry" TextChanged="BalanceChanged" PlaceholderColor="DarkSlateGray" Placeholder="Введите баланс (от -100 до 100)" Keyboard="Numeric" BackgroundColor="WhiteSmoke" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
         <Button Clicked="OkClicked" BackgroundColor="DarkRed" WidthRequest="100" HeightRequest="50" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" Text="Ок" TextColor="White" HorizontalOptions="StartAndExpand"/>
         <Button Clicked="CancelClicked" BackgroundColor="DarkRed" WidthRequest="100" HeightRequest="50" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="3" Text="Отмена" TextColor="White" HorizontalOptions="EndAndExpand"/>
     </Grid>

@@ -563,6 +563,7 @@ public partial class Playlist : ContentPage
         {
             PlayButt.IsEnabled = play;
             StopButt.IsEnabled = stop;
+            OptStack.IsEnabled = play;
         });
     }
 
