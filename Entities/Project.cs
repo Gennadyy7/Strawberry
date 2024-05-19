@@ -19,6 +19,8 @@ namespace Strawberry.Entities
         private System.Timers.Timer _timer;
         public int Length { get; set; } = 16;
 
+        public bool IsOptimizationEnabled { get; set; } = false;
+
         public Playlist Playlist { get; set; }
 
         public Project(string name, int bpm)
@@ -35,6 +37,12 @@ namespace Strawberry.Entities
             Bpm = 0;
             SliderPos = 0;
             Tracks = new List<Track>();
+            Playlist.OptimizationEvent += OnOptimization;
+        }
+
+        private void OnOptimization(bool opt)
+        {
+            IsOptimizationEnabled = opt;
         }
 
         public void AddTrack(Track track)
@@ -77,7 +85,10 @@ namespace Strawberry.Entities
             }
             else
             {
-                Playlist.ToPosition(SliderPos);
+                if (!IsOptimizationEnabled)
+                {
+                    Playlist.ToPosition(SliderPos);
+                }
                 foreach (var track in Tracks)
                 {
                     track.PlayNotesAtPosition(SliderPos, Bpm);

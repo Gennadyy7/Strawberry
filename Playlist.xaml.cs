@@ -10,6 +10,7 @@ public partial class Playlist : ContentPage
 {
     public Project Project { get; set; }
     private bool isDeleteMode = false;
+    public static event Action<bool> OptimizationEvent;
 
     public Playlist()
 	{
@@ -23,10 +24,10 @@ public partial class Playlist : ContentPage
             TrackScrollView.ScrollToAsync(0, TrackLabelsScrollView.ScrollY, true);
         };
 
-        LineScrollView.Scrolled += (s, e) =>
+        /*LineScrollView.Scrolled += (s, e) =>
         {
             TrackScrollView.ScrollToAsync(LineScrollView.ScrollX, 0, true);
-        };
+        };*/
 
         Project = new Project("Test2", 120);
         ProjNameLabel.Text = $"Project: {Project.Name}";
@@ -185,7 +186,7 @@ public partial class Playlist : ContentPage
             Line.Children.Cast<Frame>().First(c => Grid.GetColumn(c) == position).BackgroundColor = Colors.Red;
             if (position != 0)
             {
-                Line.Children.Cast<Frame>().First(c => Grid.GetColumn(c) == position - 1).BackgroundColor = Colors.White; // ДОБАВИТЬ ВОЗМОЖНОСТЬ ОПТИМИЗИРОВАТЬ ПРОИГРЫВАНИЕ ПУТЕМ ОТКЛЮЧЕНИЯ СЛЕЖЕНИЯ КУРСОРА. ЕСЛИ ЗАКОММЕНТИТЬ ТУТ КОД, ТО НОТЫ ПРОИГРЫВАЮТСЯБЕЗ ПРОБЛЕМ
+                Line.Children.Cast<Frame>().First(c => Grid.GetColumn(c) == position - 1).BackgroundColor = Colors.White;
             }
         });
     }
@@ -294,10 +295,16 @@ public partial class Playlist : ContentPage
         TrackLabelsGrid.SetRow(grid, Project.Tracks.Count - 1);
     }
 
-    private void TrackPressed(object sender, EventArgs e)
+    private async void TrackPressed(object sender, EventArgs e)
     {
         if (isDeleteMode)
         {
+            var confirmed = await DisplayAlert("Подтверждение", "Вы уверены, что хотите удалить дорожку?", "Да", "Нет");
+            if (!confirmed)
+            {
+                return;
+            }
+
             var trackButton = (Grid)sender;
             var trackIndex = TrackGrid.GetRow(trackButton);
             Project.RemoveTrack(Project.Tracks[trackIndex]);
@@ -334,7 +341,7 @@ public partial class Playlist : ContentPage
         RemButt.Background = isDeleteMode ? Colors.DarkOrange : Colors.DarkRed;
     }
 
-    public void SaveClicked(object sender, EventArgs e)
+    public async void SaveClicked(object sender, EventArgs e)
     {
         using (var db = new ApplicationContext())
         {
@@ -345,6 +352,12 @@ public partial class Playlist : ContentPage
 
             if (existingProject != null)
             {
+                var confirmed = await DisplayAlert("Подтверждение", "Проект с таким именем уже существует. Вы уверены, что хотите перезаписать его?", "Да", "Нет");
+                if (!confirmed)
+                {
+                    return;
+                }
+
                 existingProject.Bpm = Project.Bpm;
                 db.Tracks.RemoveRange(existingProject.Tracks);
                 existingProject.Tracks = Project.Tracks.Select(track => new TrackModel
@@ -508,6 +521,8 @@ public partial class Playlist : ContentPage
 
         Project.Playlist = this;
 
+        Project.IsOptimizationEnabled = OptimizeCheckBox.IsChecked;
+
         PlaylistUpdate();
     }
 
@@ -548,6 +563,11 @@ public partial class Playlist : ContentPage
             PlayButt.IsEnabled = play;
             StopButt.IsEnabled = stop;
         });
+    }
+
+    public void Optimize(object sender, CheckedChangedEventArgs e)
+    {
+        OptimizationEvent?.Invoke(e.Value);
     }
 
 }
