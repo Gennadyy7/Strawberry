@@ -16,10 +16,10 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Slider x:Name="VolumeSlider" BackgroundColor="White" Minimum="0" Maximum="100" Value="{Binding Volume}" Grid.Row="0" Grid.ColumnSpan="2"/>
-        <Slider x:Name="BalanceSlider" BackgroundColor="White" Minimum="-1" Maximum="1" Value="{Binding Balance}" Grid.Row="1" Grid.ColumnSpan="2"/>
-        <Button Clicked="OkClicked" Background="DarkRed" WidthRequest="100" HeightRequest="50" Grid.Row="2" Grid.Column="0" Text="Ок" TextColor="White" HorizontalOptions="StartAndExpand"/>
-        <Button Clicked="CancelClicked" Background="DarkRed" WidthRequest="100" HeightRequest="50" Grid.Row="2" Grid.Column="1" Text="Отмена" TextColor="White" HorizontalOptions="EndAndExpand"/>
+        <Entry x:Name="VolumeEntry" PlaceholderColor="DarkSlateGray" Placeholder="Введите громкость (%)" Keyboard="Numeric" BackgroundColor="WhiteSmoke" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <Entry x:Name="BalanceEntry" PlaceholderColor="DarkSlateGray" Placeholder="Введите баланс (от -100 до 100)" Keyboard="Numeric" BackgroundColor="WhiteSmoke" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <Button Clicked="OkClicked" BackgroundColor="DarkRed" WidthRequest="100" HeightRequest="50" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" Text="Ок" TextColor="White" HorizontalOptions="StartAndExpand"/>
+        <Button Clicked="CancelClicked" BackgroundColor="DarkRed" WidthRequest="100" HeightRequest="50" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="3" Text="Отмена" TextColor="White" HorizontalOptions="EndAndExpand"/>
     </Grid>
 
 </toolkit:Popup>

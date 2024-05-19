@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui.Views;
 using Microsoft.Maui.Controls;
 using Strawberry.Entities;
+using Strawberry.Views;
 
 namespace Strawberry;
 
@@ -170,11 +171,8 @@ public partial class Pianoroll : ContentPage
     }
     public void ChangeVolume(object sender, EventArgs e)
     {
-        //string vol = await DisplayPromptAsync("√ромкость дорожки", "¬ведите целое значение громкости (от 0% до 100%)", initialValue: Volume.ToString(), maxLength: 3, keyboard: Keyboard.Numeric, cancel: null);
-        //Volume = Math.Abs((int)double.Parse((vol == null)? Volume.ToString() : vol));
-        //var popup = new VolumeSlider(this);
-        //this.ShowPopup(popup);
-        Project.PlayFromPosition(0);
+        var popup = new TrackSlidersPopup(Track);
+        this.ShowPopup(popup);
     }
 
     public void GoBack(object sender, EventArgs e)
