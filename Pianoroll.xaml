@@ -185,9 +185,9 @@
                 <RowDefinition Height="19*"/>
             </Grid.RowDefinitions>
 
-            <ScrollView Grid.Row="0" Orientation="Horizontal">
-                <Grid x:Name="Line" Background="White" ColumnSpacing="1">
-
+            <ScrollView x:Name="NumbersScrollView" Grid.Row="0" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                <Grid x:Name="Numbers" Background="DarkSlateGray" ColumnSpacing="0">
+                    
                 </Grid>
             </ScrollView>
             <ScrollView x:Name="NoteScrollView" Grid.Row="1" Orientation="Both">

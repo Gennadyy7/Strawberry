@@ -56,12 +56,13 @@ public partial class Playlist : ContentPage
                 FontSize = 10,
                 HorizontalOptions = LayoutOptions.Start,
                 VerticalOptions = LayoutOptions.End,
-                TextColor = Colors.White
+                TextColor = Color.FromRgb(255, 220, 182)
             };
 
             if (col % 4 == 0)
             {
                 numberLabel.FontAttributes = FontAttributes.Bold;
+                numberLabel.TextColor = Colors.White;
             }
 
             Numbers.Add(numberLabel, column: col);
@@ -75,6 +76,8 @@ public partial class Playlist : ContentPage
         }
 
         Project.Playlist = this;
+
+        TrackGrid.AddColumnDefinition(new ColumnDefinition(25 * Project.Length));
     }
 
     public async void PlaylistUpdate()
@@ -110,12 +113,13 @@ public partial class Playlist : ContentPage
                 FontSize = 10,
                 HorizontalOptions = LayoutOptions.Start,
                 VerticalOptions = LayoutOptions.End,
-                TextColor = Colors.White
+                TextColor = Color.FromRgb(255, 220, 182)
             };
 
             if (col % 4 == 0)
             {
                 numberLabel.FontAttributes = FontAttributes.Bold;
+                numberLabel.TextColor = Colors.White;
             }
 
             Numbers.Add(numberLabel, column: col);
@@ -138,13 +142,14 @@ public partial class Playlist : ContentPage
     {
         TrackGrid.Children.Clear();
         TrackGrid.RowDefinitions.Clear();
-        TrackGrid.ColumnDefinitions.Clear();
 
         await Task.Delay(0);
     }
 
     public async Task TrackGridUpdate()
     {
+        TrackGrid.ColumnDefinitions[0].Width = new GridLength(25 * Project.Length);
+
         foreach (var track in Project.Tracks)
         {
             int trackIndex = Project.Tracks.IndexOf(track);
@@ -174,6 +179,7 @@ public partial class Playlist : ContentPage
             TrackGrid.AddRowDefinition(new RowDefinition(52));
             TrackGrid.Children.Add(button);
             TrackGrid.SetRow(button, Project.Tracks.IndexOf(track));
+            TrackGrid.SetColumn(button, 0);
 
             await Task.Delay(0);
         }
@@ -256,6 +262,7 @@ public partial class Playlist : ContentPage
         TrackGrid.AddRowDefinition(new RowDefinition(52));
         TrackGrid.Children.Add(button);
         TrackGrid.SetRow(button, Project.Tracks.Count - 1);
+        TrackGrid.SetColumn(button, 0);
 
 
         var track = Project.Tracks.Last();

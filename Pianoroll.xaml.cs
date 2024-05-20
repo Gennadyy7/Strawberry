@@ -93,17 +93,44 @@ public partial class Pianoroll : ContentPage
         NoteGrid.Children.Clear();
         NoteGrid.RowDefinitions.Clear();
         NoteGrid.ColumnDefinitions.Clear();
+        Numbers.Children.Clear();
+        Numbers.ColumnDefinitions.Clear();
 
         await Task.Delay(0);
     }
 
     public async Task InitializeAsync()
     {
+        for (int col = 0; col < 16; col ++)
+        {
+            Numbers.ColumnDefinitions.Add(new ColumnDefinition(25));
+
+            Label numberLabel = new Label
+            {
+                WidthRequest = 25,
+                HeightRequest = 17,
+                Text = (Hex * 16 + col + 1).ToString(),
+                FontSize = 10,
+                HorizontalOptions = LayoutOptions.Start,
+                VerticalOptions = LayoutOptions.End,
+                TextColor = Color.FromRgb(255, 220, 182)
+            };
+
+            if (col % 4 == 0)
+            {
+                numberLabel.FontAttributes = FontAttributes.Bold;
+                numberLabel.TextColor = Colors.White;
+            }
+
+            Numbers.Add(numberLabel, column: col);
+        }
+
         for (int row = 0; row < 60; row++)
         {
             NoteGrid.RowDefinitions.Add(new RowDefinition(25));
             for (int col = 0; col < 16; col++)
             {
+                NoteGrid.ColumnDefinitions.Add(new ColumnDefinition(25));
                 Frame button = new Frame
                 {
                     MinimumWidthRequest = 25,
