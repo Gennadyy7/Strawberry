@@ -344,6 +344,11 @@ public partial class Playlist : ContentPage
 
     public async void SaveClicked(object sender, EventArgs e)
     {
+        Application.Current.Dispatcher.Dispatch(() =>
+        {
+            SaveButt.Background = Colors.DarkOrange;
+        });
+        await Task.Delay(300);
         using (var db = new ApplicationContext())
         {
             var existingProject = db.Projects
@@ -356,6 +361,10 @@ public partial class Playlist : ContentPage
                 var confirmed = await DisplayAlert("Подтверждение", "Проект с таким именем уже существует. Вы уверены, что хотите перезаписать его?", "Да", "Нет");
                 if (!confirmed)
                 {
+                    Application.Current.Dispatcher.Dispatch(() =>
+                    {
+                        SaveButt.Background = Colors.DarkRed;
+                    });
                     return;
                 }
 
@@ -411,6 +420,10 @@ public partial class Playlist : ContentPage
             
             db.SaveChanges();
         }
+        Application.Current.Dispatcher.Dispatch(() =>
+        {
+            SaveButt.Background = Colors.DarkRed;
+        });
     }
     public void DownClicked(object sender, EventArgs e)
     {
@@ -419,8 +432,20 @@ public partial class Playlist : ContentPage
         this.ShowPopup(popup);
     }
 
-    private void OnProjectSelected(ProjectListPopup popup)
+    public async void OnProjectSelected(ProjectListPopup popup)
     {
+        var page = Content;
+        Content = new Label
+        {
+            Text = "Загрузка...",
+            HorizontalOptions = LayoutOptions.Fill,
+            VerticalOptions = LayoutOptions.Fill,
+            BackgroundColor = Colors.DarkSlateGray,
+            TextColor = Colors.White,
+            HorizontalTextAlignment = TextAlignment.Center,
+            VerticalTextAlignment = TextAlignment.Center,
+        };
+        await Task.Delay(300);
         using (var db = new ApplicationContext())
         {
 
@@ -525,6 +550,8 @@ public partial class Playlist : ContentPage
         Project.IsOptimizationEnabled = OptimizeCheckBox.IsChecked;
 
         PlaylistUpdate();
+
+        Content = page;
     }
 
     public void SettingsClicked(object sender, EventArgs e)
@@ -571,5 +598,21 @@ public partial class Playlist : ContentPage
     {
         OptimizationEvent?.Invoke(e.Value);
     }
+
+    public void UpdateTrackLabel(int trackIndex)
+    {
+        Application.Current.Dispatcher.Dispatch(() =>
+        {
+            var grid = (Grid)TrackLabelsGrid.Children[trackIndex];
+
+            var trackLabel = (Label)grid.Children.FirstOrDefault(c => c is Label);
+
+            var track = Project.Tracks[trackIndex];
+
+            var VolStr = track.IsMuted ? "Заглушен" : $"{track.Volume}% громкости";
+            trackLabel.Text = $"Имя: {track.Name}\n{VolStr}";
+        });
+    }
+
 
 }

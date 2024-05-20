@@ -6,7 +6,8 @@ namespace Strawberry.Views;
 public partial class TrackSlidersPopup : Popup
 {
     public Track Track { get; set; }
-	public TrackSlidersPopup(Track track)
+    public static event Action TrackSlidersApplied;
+    public TrackSlidersPopup(Track track)
 	{
 		InitializeComponent();
         Track = track;
@@ -24,6 +25,7 @@ public partial class TrackSlidersPopup : Popup
         {
             Track.SetPan(balanceValue);
         }
+        TrackSlidersApplied?.Invoke();
         Close();
     }
 

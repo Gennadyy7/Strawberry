@@ -22,16 +22,20 @@
                     <RowDefinition Height="70"/>
                     <RowDefinition Height="70"/>
                     <RowDefinition Height="70"/>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="70"/>
                 </Grid.RowDefinitions>
 
                 <ImageButton  Grid.Row="0" x:Name="BackButt" Clicked="GoBack" HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="back_arrow.png" Padding="5"/>
                 <ImageButton Grid.Row="1" x:Name="PaintButt" Clicked="SelectPainting" HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="paint.png" Padding="5"/>
-                <ImageButton Grid.Row="2" x:Name="ResizeButt" Clicked="ResizeNote" HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="resizing.png" Padding="5"/>
-                <ImageButton Grid.Row="3" x:Name="VolumeSliderButt" Clicked="ChangeVolume" HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="volume_slider.png" Padding="5"/>
-                <ImageButton Grid.Row="4" x:Name="SettingsButt" Clicked="SettingsClicked" HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="settings.png" Padding="5"/>
-                <ImageButton Grid.Row="5" x:Name="HarmonizeButt" HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="harmonize.png" Padding="5"/>
-                <ImageButton Grid.Row="6" x:Name="NextHex" Clicked="NextClicked" HeightRequest="42" WidthRequest="42" Background="DarkRed" Padding="5" Source="next.png"/>
-                <ImageButton Grid.Row="7" x:Name="PrevHex" Clicked="PrevClicked" HeightRequest="42" WidthRequest="42" Background="DarkRed" Padding="5" Source="prev.png"/>
+                <ImageButton Grid.Row="2" x:Name="MuteButt" Clicked="MuteClicked" HeightRequest="42" WidthRequest="42" Background="DarkRed" Padding="5" Source="mute.png"/>
+                <ImageButton Grid.Row="3" x:Name="UnMuteButt" Clicked="UnMuteClicked" HeightRequest="42" WidthRequest="42" Background="DarkRed" Padding="5" Source="unmute.png"/>
+                <ImageButton Grid.Row="4" x:Name="ResizeButt" Clicked="ResizeNote" HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="resizing.png" Padding="5"/>
+                <ImageButton Grid.Row="5" x:Name="VolumeSliderButt" Clicked="ChangeVolume" HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="volume_slider.png" Padding="5"/>
+                <ImageButton Grid.Row="6" x:Name="SettingsButt" Clicked="SettingsClicked" HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="settings.png" Padding="5"/>
+                <ImageButton Grid.Row="7" x:Name="HarmonizeButt" HeightRequest="42" WidthRequest="42" Background="DarkRed" Source="harmonize.png" Padding="5"/>
+                <ImageButton Grid.Row="8" x:Name="NextHex" Clicked="NextClicked" HeightRequest="42" WidthRequest="42" Background="DarkRed" Padding="5" Source="next.png"/>
+                <ImageButton Grid.Row="9" x:Name="PrevHex" Clicked="PrevClicked" HeightRequest="42" WidthRequest="42" Background="DarkRed" Padding="5" Source="prev.png"/>
             </Grid>
         </ScrollView>
 

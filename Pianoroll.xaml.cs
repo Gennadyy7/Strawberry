@@ -25,8 +25,15 @@ public partial class Pianoroll : ContentPage
         {
             NoteScrollView.ScrollToAsync(0, KeysScrollView.ScrollY, true);
         };
-
         Length = 2;
+
+        TrackSettingsPopup.TrackSettingsApplied += UpdateSignal;
+        TrackSlidersPopup.TrackSlidersApplied += UpdateSignal;
+    }
+
+    public void UpdateSignal()
+    {
+        Project.Playlist.UpdateTrackLabel(Project.Tracks.IndexOf(Track));
     }
 
     public Pianoroll(Project project, int trackIndex):this()
@@ -50,30 +57,24 @@ public partial class Pianoroll : ContentPage
             VerticalTextAlignment = TextAlignment.Center,
         };
         await Task.Delay(300);
+        await ClearNoteGrid();
         await InitializeAsync();
-        await FillTheNotes(0);
+        await FillTheNotes(Hex * 16);
+
+        Application.Current.Dispatcher.Dispatch(() =>
+        {
+            bool temp = Track.IsMuted;
+            MuteButt.Background = temp ? Colors.DarkOrange : Colors.DarkRed;
+            UnMuteButt.Background = (!temp) ? Colors.DarkOrange : Colors.DarkRed;
+        });
+
         Content = page;
     }
 
-    public async void NoteGridChange(bool next)
+    public void NoteGridChange(bool next)
     {
         if ((next && (Hex + 1) * 16 >= 1600) || (!next && (Hex - 1) * 16 < 0))
             return;
-
-        var page = Content;
-        Content = new Label
-        {
-            Text = "Загрузка...",
-            HorizontalOptions = LayoutOptions.Fill,
-            VerticalOptions = LayoutOptions.Fill,
-            BackgroundColor = Colors.DarkSlateGray,
-            TextColor = Colors.White,
-            HorizontalTextAlignment = TextAlignment.Center,
-            VerticalTextAlignment = TextAlignment.Center,
-        };
-        await Task.Delay(300);
-        await ClearNoteGrid();
-        await InitializeAsync();
         
         if (next)
         {
@@ -84,9 +85,7 @@ public partial class Pianoroll : ContentPage
             Hex--;
         }
 
-        await FillTheNotes(Hex * 16);
-
-        Content = page;
+        OnAppearing();
     }
 
     public async Task ClearNoteGrid()
@@ -195,7 +194,8 @@ public partial class Pianoroll : ContentPage
 
     public void SettingsClicked(object sender, EventArgs e)
     {
-
+        var popup = new TrackSettingsPopup(Track);
+        this.ShowPopup(popup);
     }
     public void SelectPainting(object sender, EventArgs e)
     {
@@ -319,6 +319,22 @@ public partial class Pianoroll : ContentPage
     public void PrevClicked(object sender, EventArgs e)
     {
         NoteGridChange(false);
+    }
+
+    public void MuteClicked(object sender, EventArgs e)
+    {
+        Track.Mute();
+        MuteButt.Background = Colors.DarkOrange;
+        UnMuteButt.Background = Colors.DarkRed;
+        UpdateSignal();
+    }
+
+    public void UnMuteClicked(object sender, EventArgs e)
+    {
+        Track.Unmute();
+        MuteButt.Background = Colors.DarkRed;
+        UnMuteButt.Background = Colors.DarkOrange;
+        UpdateSignal();
     }
 
 }
