@@ -30,8 +30,8 @@ namespace Strawberry.Entities
 
             for (int i = 0; i < 6; i++)
             {
-                var thirdPitch = tonic - intervals[i] - intervals[i + 2];
-                var fifthPitch = tonic - intervals[i] - intervals[i + 4];
+                var thirdPitch = tonic - intervals[i] - intervals[(i + 2) % 7];
+                var fifthPitch = tonic - intervals[i] - intervals[(i + 4) % 7];
 
                 if (i > 2)
                 {

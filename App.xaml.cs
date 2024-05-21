@@ -5,7 +5,7 @@
         public App()
         {
             InitializeComponent();
-            MainPage = new NavigationPage(new Playlist());
+            MainPage = new NavigationPage(new MainPage());
         }
     }
 }
