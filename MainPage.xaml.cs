@@ -8,9 +8,9 @@ namespace Strawberry
         public MainPage()
         {
             InitializeComponent();
-            Project = new Project("Test", 100);
+            Project = new Project("Test", 60);
             Track track = new Track("Simple Piano", "Piano");
-            var chords = Harmonizer.GenerateDiatonicTriads(Pitch.C3, HarmonyMode.Major, 4, track.Instrument);
+            var chords = Harmonizer.GenerateDiatonicTriads(Pitch.A3, HarmonyMode.Minor, 4, track.Instrument);
             int i = 0;
             foreach (var ch in chords)
             {
@@ -21,6 +21,8 @@ namespace Strawberry
                 }
                 i += 4;
             }
+            Project.AddTrack(track);
+            Project.Length = 32;
         }
 
         private void OnCounterClicked(object sender, EventArgs e)

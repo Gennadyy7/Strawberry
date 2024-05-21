@@ -10,6 +10,5 @@ namespace Strawberry.Entities
     {
         Major,
         Minor,
-        HarmonicMinor,
     }
 }

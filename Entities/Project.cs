@@ -88,7 +88,7 @@ namespace Strawberry.Entities
             {
                 if (!IsOptimizationEnabled)
                 {
-                    Playlist.ToPosition(SliderPos);
+                    //Playlist.ToPosition(SliderPos);
                 }
                 foreach (var track in Tracks)
                 {
@@ -99,7 +99,7 @@ namespace Strawberry.Entities
                 {
                     _timer.Stop();
                     _timer.Dispose();
-                    Playlist.ButtonActivation(true, false);
+                    //Playlist.ButtonActivation(true, false);
                 }
             }
         }
