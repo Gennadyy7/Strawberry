@@ -10,19 +10,31 @@ namespace Strawberry
             InitializeComponent();
             Project = new Project("Test", 60);
             Track track = new Track("Simple Piano", "Piano");
-            var chords = Harmonizer.GenerateDiatonicTriads(Pitch.A3, HarmonyMode.Minor, 4, track.Instrument);
-            int i = 0;
-            foreach (var ch in chords)
-            {
-                Harmonizer.SetTriadPosition(ch.Value, i);
-                foreach (var n in ch.Value)
-                {
-                    track.AddNote(n);
-                }
-                i += 4;
-            }
             Project.AddTrack(track);
-            Project.Length = 32;
+            track.AddNote(Pitch.C4, 2, 0, 80, 0);
+            track.AddNote(Pitch.D4, 2, 2, 80, 0);
+            track.AddNote(Pitch.E4, 4, 4, 80, 0);
+
+            track.AddNote(Pitch.E4, 2, 8, 80, 0);
+            track.AddNote(Pitch.D4, 2, 10, 80, 0);
+            track.AddNote(Pitch.C4, 4, 12, 80, 0);
+
+            track.AddNote(Pitch.C4, 2, 16, 80, 0);
+            track.AddNote(Pitch.D4, 2, 18, 80, 0);
+            track.AddNote(Pitch.E4, 2, 20, 80, 0);
+            track.AddNote(Pitch.E4, 2, 22, 80, 0);
+            track.AddNote(Pitch.E4, 2, 24, 80, 0);
+            track.AddNote(Pitch.D4, 2, 26, 80, 0);
+            track.AddNote(Pitch.C4, 4, 28, 80, 0);
+
+            track.AddNote(Pitch.C4, 2, 32, 80, 0);
+
+            var harmonyChords = Harmonizer.Harmonize(track, Pitch.C3, HarmonyMode.Major, 4);
+            Track harmonyTrack = new Track("Harmony", "Piano");
+            harmonyTrack.SetNotes(harmonyChords);
+            Project.AddTrack(harmonyTrack);
+
+            Project.Length = 48;
         }
 
         private void OnCounterClicked(object sender, EventArgs e)

@@ -59,6 +59,17 @@ namespace Strawberry.Entities
                 }
             }
         }
+
+        public void SetNotes(Dictionary<int, List<Note>> notes)
+        {
+            foreach (var noteList in notes.Values)
+            {
+                foreach (var note in noteList)
+                {
+                    AddNote(note);
+                }
+            }
+        }
         public void AddNote(Note note)
         {
             note = new Note(note, Instrument);
