@@ -29,7 +29,7 @@ namespace Strawberry
 
             track.AddNote(Pitch.C4, 2, 32, 80, 0);
 
-            var harmonyChords = Harmonizer.Harmonize(track, Pitch.C3, HarmonyMode.Major, 4);
+            var harmonyChords = Harmonizer.Harmonize(track, Pitch.C3, HarmonyMode.Major, 2);
             Track harmonyTrack = new Track("Harmony", "Piano");
             harmonyTrack.SetNotes(harmonyChords);
             Project.AddTrack(harmonyTrack);

@@ -79,6 +79,18 @@ namespace Strawberry.Entities
             }
         }
 
+        private static List<Note> CloneChord(List<Note> originalChord)
+        {
+            List<Note> clonedChord = new List<Note>();
+            foreach (Note originalNote in originalChord)
+            {
+                Note clonedNote = new Note(originalNote.NotePitch, originalNote.Duration, originalNote.Position, originalNote.Volume, originalNote.Pan, originalNote.Sample.Name);
+                clonedChord.Add(clonedNote);
+            }
+            return clonedChord;
+        }
+
+
         public static Dictionary<int, List<Note>> Harmonize(Track melodyTrack, Pitch tonic, HarmonyMode mode, int chordsPerBar)
         {
             // Создаем переменную позиции для гармонического разрешения мелодии
@@ -138,10 +150,12 @@ namespace Strawberry.Entities
                         }
 
                         // Установка позиции для аккорда
-                        Harmonizer.SetTriadPosition(selectedChord, position);
+                        List<Note> clonedChord = CloneChord(selectedChord);
+                        Harmonizer.SetTriadPosition(clonedChord, position);
+
 
                         // Добавление аккорда в структуру гармонизированных аккордов
-                        harmonizedChords[position] = selectedChord;
+                        harmonizedChords[position] = clonedChord;
                     }
                     else
                     {
