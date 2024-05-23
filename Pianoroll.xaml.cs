@@ -364,4 +364,10 @@ public partial class Pianoroll : ContentPage
         UpdateSignal();
     }
 
+    public void HarmonizeClicked(object sender, EventArgs e)
+    {
+        var popup = new HarmonizerPopup(Project, Track);
+        this.ShowPopup(popup);
+    }
+
 }

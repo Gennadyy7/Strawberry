@@ -8,6 +8,32 @@ namespace Strawberry.Entities
 {
     public class Harmonizer
     {
+        private static readonly Dictionary<string, Pitch> TonicaToPitchMap = new Dictionary<string, Pitch>
+        {
+            { "C", Pitch.C3 },
+            { "Db", Pitch.Db3 },
+            { "D", Pitch.D3 },
+            { "Eb", Pitch.Eb3 },
+            { "E", Pitch.E3 },
+            { "F", Pitch.F3 },
+            { "Gb", Pitch.Gb3 },
+            { "G", Pitch.G3 },
+            { "Ab", Pitch.Ab3 },
+            { "A", Pitch.A3 },
+            { "Bb", Pitch.Bb3 },
+            { "B", Pitch.B3 }
+        };
+
+        public static Pitch? GetPitchFromTonica(string tonica)
+        {
+            if (TonicaToPitchMap.TryGetValue(tonica, out var pitch))
+            {
+                return pitch;
+            }
+
+            return null;
+        }
+
         public static Dictionary<Pitch, List<Note>> GenerateDiatonicTriads(Pitch tonic, HarmonyMode mode, int chordsPerBar, string instrument)
         {
             var diatonicTriads = new Dictionary<Pitch, List<Note>>();
@@ -93,6 +119,11 @@ namespace Strawberry.Entities
 
         public static Dictionary<int, List<Note>> Harmonize(Track melodyTrack, Pitch tonic, HarmonyMode mode, int chordsPerBar)
         {
+            if (melodyTrack.Notes.Count == 0)
+            {
+                return null;
+            }
+
             // Создаем переменную позиции для гармонического разрешения мелодии
             int resolutionPosition = melodyTrack.Notes.Keys.Max();
 

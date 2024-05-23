@@ -235,7 +235,7 @@ public partial class Playlist : ContentPage
         Content = page;
     }
 
-    private void OnTrackAdded()
+    public void OnTrackAdded()
     {
         Random random = new Random();
         var button = new Grid

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="Strawberry.Views.HarmonizerPopup"
+             CanBeDismissedByTappingOutsideOfPopup="False"
+             HorizontalOptions="Fill"
+             VerticalOptions="Center"
+             Color="DarkSlateGray">
+    <Grid x:Name="PopupGrid" RowSpacing="5" HorizontalOptions="Fill" VerticalOptions="Fill" Background="DarkSlateGray" Padding="5" ColumnSpacing="60">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Harmonizer Label -->
+        <Label Text="Гармонизатор v1.0" TextColor="White" FontAttributes="Bold" Grid.Row="0" Grid.Column="0" HorizontalOptions="Center"/>
+
+        <!-- Tonica Selection -->
+        <Picker x:Name="TonicaPicker" Title="Тоника" TitleColor="White" Grid.Row="1" Grid.Column="0" BackgroundColor="WhiteSmoke">
+            <Picker.Items>
+                <x:String>C</x:String>
+                <x:String>Db</x:String>
+                <x:String>D</x:String>
+                <x:String>Eb</x:String>
+                <x:String>E</x:String>
+                <x:String>F</x:String>
+                <x:String>Gb</x:String>
+                <x:String>G</x:String>
+                <x:String>Ab</x:String>
+                <x:String>A</x:String>
+                <x:String>Bb</x:String>
+                <x:String>B</x:String>
+            </Picker.Items>
+        </Picker>
+
+        <!-- Mode Selection -->
+        <Picker x:Name="ModePicker" Title="Лад" TitleColor="White" Grid.Row="2" Grid.Column="0" BackgroundColor="WhiteSmoke">
+            <Picker.Items>
+                <x:String>Major</x:String>
+                <x:String>Minor</x:String>
+            </Picker.Items>
+        </Picker>
+
+        <Picker x:Name="ChordsPerBarPicker" Title="Кол-во аккордов на такт" TitleColor="White" Grid.Row="3" Grid.Column="0" BackgroundColor="WhiteSmoke">
+            <Picker.Items>
+                <x:String>1</x:String>
+                <x:String>2</x:String>
+                <x:String>4</x:String>
+            </Picker.Items>
+        </Picker>
+
+        <!-- Status Label -->
+        <Label x:Name="StatusLabel" Text="Статус: Ожидает" TextColor="White" Grid.Row="4" Grid.Column="0" VerticalOptions="Center"/>
+
+        <!-- Help Button -->
+        <Button Clicked="HelpClicked" BackgroundColor="DarkRed" Text="Как использовать?" TextColor="White" Grid.Row="5" Grid.Column="0" HorizontalOptions="Fill" VerticalOptions="End"/>
+
+        <!-- Harmonize and Close Buttons -->
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" VerticalOptions="End" Grid.Row="6" Grid.Column="0" Spacing="20">
+            <Button Clicked="HarmonizeClicked" BackgroundColor="DarkRed" WidthRequest="180" HeightRequest="50" Text="Гармонизировать" TextColor="White" HorizontalOptions="StartAndExpand"/>
+            <Button Clicked="CancelClicked" BackgroundColor="DarkRed" WidthRequest="100" HeightRequest="50" Text="Закрыть" TextColor="White" HorizontalOptions="EndAndExpand"/>
+        </StackLayout>
+    </Grid>
+
+</toolkit:Popup>
