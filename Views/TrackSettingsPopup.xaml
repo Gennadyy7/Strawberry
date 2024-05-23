@@ -15,7 +15,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Entry x:Name="TrackNameEntry" TextChanged="TrackNameChanged" PlaceholderColor="DarkSlateGray" Placeholder="Введите название дорожки" BackgroundColor="WhiteSmoke" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <Entry x:Name="TrackNameEntry" TextColor="Black" TextChanged="TrackNameChanged" PlaceholderColor="DarkSlateGray" Placeholder="Введите название дорожки" BackgroundColor="WhiteSmoke" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
         <Button Clicked="OkClicked" BackgroundColor="DarkRed" WidthRequest="100" HeightRequest="50" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" Text="Ок" TextColor="White" HorizontalOptions="StartAndExpand"/>
         <Button Clicked="CancelClicked" BackgroundColor="DarkRed" WidthRequest="100" HeightRequest="50" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="3" Text="Отмена" TextColor="White" HorizontalOptions="EndAndExpand"/>
     </Grid>

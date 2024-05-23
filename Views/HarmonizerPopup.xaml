@@ -9,13 +9,13 @@
              Color="DarkSlateGray">
     <Grid x:Name="PopupGrid" RowSpacing="5" HorizontalOptions="Fill" VerticalOptions="Fill" Background="DarkSlateGray" Padding="5" ColumnSpacing="60">
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -25,7 +25,7 @@
         <Label Text="Гармонизатор v1.0" TextColor="White" FontAttributes="Bold" Grid.Row="0" Grid.Column="0" HorizontalOptions="Center"/>
 
         <!-- Tonica Selection -->
-        <Picker x:Name="TonicaPicker" Title="Тоника" TitleColor="White" Grid.Row="1" Grid.Column="0" BackgroundColor="WhiteSmoke">
+        <Picker x:Name="TonicaPicker" Title="Тоника" TitleColor="Gray" Grid.Row="1" Grid.Column="0" BackgroundColor="WhiteSmoke">
             <Picker.Items>
                 <x:String>C</x:String>
                 <x:String>Db</x:String>
@@ -43,14 +43,14 @@
         </Picker>
 
         <!-- Mode Selection -->
-        <Picker x:Name="ModePicker" Title="Лад" TitleColor="White" Grid.Row="2" Grid.Column="0" BackgroundColor="WhiteSmoke">
+        <Picker x:Name="ModePicker" Title="Лад" TitleColor="Gray" Grid.Row="2" Grid.Column="0" BackgroundColor="WhiteSmoke">
             <Picker.Items>
                 <x:String>Major</x:String>
                 <x:String>Minor</x:String>
             </Picker.Items>
         </Picker>
 
-        <Picker x:Name="ChordsPerBarPicker" Title="Кол-во аккордов на такт" TitleColor="White" Grid.Row="3" Grid.Column="0" BackgroundColor="WhiteSmoke">
+        <Picker x:Name="ChordsPerBarPicker" Title="Кол-во аккордов на такт" TitleColor="Gray" Grid.Row="3" Grid.Column="0" BackgroundColor="WhiteSmoke">
             <Picker.Items>
                 <x:String>1</x:String>
                 <x:String>2</x:String>
