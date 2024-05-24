@@ -124,31 +124,23 @@ namespace Strawberry.Entities
                 return null;
             }
 
-            // Создаем переменную позиции для гармонического разрешения мелодии
             int resolutionPosition = melodyTrack.Notes.Keys.Max();
 
-            // Проверяем, является эта позиция подходящей для постановки последнего тонического трезвучия
             if (resolutionPosition % 16 != 0)
             {
                 return null;
             }
 
-            // Генерация диатонических аккордов
             var diatonicChords = Harmonizer.GenerateDiatonicTriads(tonic, mode, chordsPerBar, melodyTrack.Instrument);
 
-            // Структура для хранения гармонизированных аккордов
             var harmonizedChords = new Dictionary<int, List<Note>>();
 
-            // Расчет количества долей на один аккорд
             int beatsPerChord = 16 / chordsPerBar;
 
-            // Проход по всем сильным долям с учетом количества аккордов на такт
             for (int position = 0; position <= resolutionPosition; position += beatsPerChord)
             {
-                // Проверка наличия нот на текущей позиции
                 if (melodyTrack.Notes.TryGetValue(position, out var notesAtPosition))
                 {
-                    // Поиск аккордов, содержащих ноты на текущей позиции
                     var matchingChords = diatonicChords.Where(kvp =>
                         notesAtPosition.Count == 1
                             ? kvp.Value.Any(n => ((int)n.NotePitch % 12) == ((int)notesAtPosition.First().NotePitch % 12))
@@ -174,23 +166,19 @@ namespace Strawberry.Entities
                         }
                         else
                         {
-                            // Рандомный выбор одного из подходящих аккордов
                             Random rnd = new Random();
                             selectedChordRoot = matchingChords.ElementAt(rnd.Next(matchingChords.Count)).Key;
                             selectedChord = matchingChords[selectedChordRoot];
                         }
 
-                        // Установка позиции для аккорда
                         List<Note> clonedChord = CloneChord(selectedChord);
                         Harmonizer.SetTriadPosition(clonedChord, position);
 
 
-                        // Добавление аккорда в структуру гармонизированных аккордов
                         harmonizedChords[position] = clonedChord;
                     }
                     else
                     {
-                        // Если ноты не соответствуют ни одному аккорду, возвращаем Null или пустой словарь
                         return null;
                     }
                 }
