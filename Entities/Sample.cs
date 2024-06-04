@@ -11,7 +11,6 @@ namespace Strawberry.Entities
     public class Sample
     {
         public string Name { get; set; }
-        public string DatabaseID { get; set; }
         public IAudioPlayer Sound { get; set; }
         public System.Timers.Timer _timer;
         public Sample(string name, Pitch pitch)
